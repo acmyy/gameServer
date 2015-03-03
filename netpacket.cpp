@@ -25,7 +25,7 @@ bool NETPacket::GetData(int clientFd, char* pDataBuffer, const unsigned int& nDa
     while (len > 0)
     {
     	ret = recv(clientFd, p + (nDataSize - len), nDataSize - returnlen, 0);
-    	if (ret == SOCKET_ERROR || ret == 0)
+    	if (ret == -1 || ret == 0)
     	{
     		return false;
     	}
