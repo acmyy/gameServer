@@ -8,6 +8,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<map>
+#include<errno.h>
 #ifndef _TYPEDEF_STRUCT_
 #define _TYPEDEF_STRUCT_
 
