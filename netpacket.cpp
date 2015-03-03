@@ -10,7 +10,7 @@ NETPacket::~NETPacket()
 
 }
   
-bool NETPacket::GetData(int clientFd, const char* pDataBuffer, const unsigned int& nDataSize )  
+bool NETPacket::GetData(int clientFd, char* pDataBuffer, const unsigned int& nDataSize )  
 {  
     if (pDataBuffer == NULL)
     {
@@ -24,7 +24,7 @@ bool NETPacket::GetData(int clientFd, const char* pDataBuffer, const unsigned in
 
     while (len > 0)
     {
-    	ret = recv(clientFd, p + (iLen - len), iLen - returnlen, 0);
+    	ret = recv(clientFd, p + (nDataSize - len), nDataSize - returnlen, 0);
     	if (ret ==  SOCKET_ERROR || ret == 0)
     	{
     		return false;

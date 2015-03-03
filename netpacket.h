@@ -9,7 +9,7 @@ public:
 public:  
     
     ///接收数据
-    bool GetData(int clientFd, const char* pDataBuffer, const unsigned int& nDataSize);  
+    bool GetData(int clientFd, char* pDataBuffer, const unsigned int& nDataSize);  
   
     /// 发送数据  
     bool SendData(int clientFd, const char* pDataBuffer, const unsigned int& nDataSize);  
