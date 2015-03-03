@@ -89,8 +89,8 @@ int main(int argc, char** argv)
         {
             NetPacket_Test1 nettest;
             NetPacketHeader netheader;
-            strcpy(nettest.Username, strName.c_str());
-            strcpy(nettest.Userpwd, strPwd.c_str()); 
+            strcpy(nettest.username, strName.c_str());
+            strcpy(nettest.userpwd, strPwd.c_str()); 
             netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
             netheader.wOpcode = NET_TEST1; 
             ::write(iSockFd, (char*)&netheader, sizeof(netheader));
