@@ -1,5 +1,5 @@
 #include "serverThread.h"
-
+#include "netpacket.h"
 
 serverThread* serverThread::m_pServerThread = NULL;
 
@@ -28,28 +28,43 @@ void* ProcessClient(void* pConn)
 
 	printf("%s %u\n",stConn.m_szClientIP, stConn.m_usClientPort);
     serverThread* pServerThread = serverThread::getInstance();
-	char szBuffer[1024];
-	char szSend[2048];
-	//strcpy(szSend, stConn.m_szClientIP);
-	//strcat(szSend, )
-	while (1)
+	char packageHead[1024];
+	char packageContext[2048];
+
+	NetPacketHeader* pPackageHeader = NULL;
+	NETPacket netdata;
+
+	memest(packageHead, 0, sizeof(packageHead));
+	ssize_t iRet = netdata.GetData(stConn.m_iFd, packageHead, sizeof(NetPacketHeader));
+	if (iRet == false)
 	{
-		ssize_t iRet = ::read(stConn.m_iFd, szBuffer, sizeof(szBuffer) - 1);
-		if (iRet > 0)
+		printf("=== get fialed\n");
+		return ;
+	}
+	
+	pPackageHeader = (NetPacketHeader* )packageHead;
+	memset(packageContext, 0, sizeof(packageContext));
+	if (pPackageHeader->wDataSize > 0)
+	{
+		iRet = netdata.GetData(stConn.m_iFd, packageContext, pPackageHeader->wDataSize);
+		if (iRet == false)
 		{
-			szBuffer[iRet] = 0;
+			printf("=== get fialed\n");
+			return ;
 		}
-		else if (iRet == 0)
+		switch (pPackageHeader->wOpcode)
 		{
-			printf("-=========\n");
-			break;	
+			case NET_TEST1:
+				NetPacket_Test1* test1 = (NetPacket_Test1* )packageContext;
+				printf("%s %s\n", test1->username, test1->userpwd); 
+			break;
+			default:
+			break;
 		}
-		std::map<int ,int >::iterator it;
-		for (it = pServerThread->m_SocketMap.begin(); it != pServerThread->m_SocketMap.end(); ++it)
-		{
-			if (stConn.m_iFd != it->second)
-				::write(it->second, szBuffer, (size_t)iRet);
-		}
+	}
+	else
+	{
+		printf("getfialed\n");
 	}
 }
 
