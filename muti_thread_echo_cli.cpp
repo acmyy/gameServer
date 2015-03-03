@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <iostream>
+#include <netpacket.h>
 
 #define LOG_DEBUG std::cout << __FILE__ << ":" << __LINE__ << "{" << __FUNCTION__ << "}|DEBUG|"
 #define LOG_ERROR std::cout << __FILE__ << ":" << __LINE__ << "{" << __FUNCTION__ << "}|ERROR|"
@@ -73,16 +74,27 @@ int main(int argc, char** argv)
     }
 
     char szBuffer[1024];
-    std::string strMsg;
+    std::string strName, strPwd;
    	pthread_t iTid;
   	pthread_create(&iTid, NULL, threadEntry, (void*)&iSockFd);
     while(1)
     { 
-        std::cout << "Chat :" << std::endl; 
-        std::cin >> strMsg;
-        if(strMsg.empty() == false)
+        std::cout << "Username :" << std::endl; 
+        std::cin >> strName;
+
+        std::cout << "Userpwd :" << std::endl; 
+        std::cin >> strPwd;
+        
+        if(strName.empty() == false)
         {
-            ::write(iSockFd, strMsg.c_str(), strMsg.size());
+            NetPacket_Test1 nettest;
+            NetPacketHeader netheader;
+            strcpy(nettest.Username, strName.c_str());
+            strcpy(nettest.Userpwd, strPwd.c_str()); 
+            netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+            netheader.wOpcode = NET_TEST1; 
+            ::write(iSockFd, (char*)&netheader, sizeof(netheader));
+            ::write(iSockFd, (char*)&nettest, sizeof(nettest));
         }
         else
         {
