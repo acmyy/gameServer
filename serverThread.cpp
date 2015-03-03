@@ -34,12 +34,12 @@ void* ProcessClient(void* pConn)
 	NetPacketHeader* pPackageHeader = NULL;
 	NETPacket netdata;
 
-	memest(packageHead, 0, sizeof(packageHead));
+	memset(packageHead, 0, sizeof(packageHead));
 	ssize_t iRet = netdata.GetData(stConn.m_iFd, packageHead, sizeof(NetPacketHeader));
 	if (iRet == false)
 	{
 		printf("=== get fialed\n");
-		return ;
+		return NULL;
 	}
 	
 	pPackageHeader = (NetPacketHeader* )packageHead;
@@ -50,14 +50,16 @@ void* ProcessClient(void* pConn)
 		if (iRet == false)
 		{
 			printf("=== get fialed\n");
-			return ;
+			return NULL;
 		}
 		switch (pPackageHeader->wOpcode)
 		{
 			case NET_TEST1:
+			{
 				NetPacket_Test1* test1 = (NetPacket_Test1* )packageContext;
 				printf("%s %s\n", test1->username, test1->userpwd); 
-			break;
+				break;
+			}
 			default:
 			break;
 		}
