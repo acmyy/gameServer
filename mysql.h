@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <mysql/mysql.h>
 class mysql
 {
 public:
