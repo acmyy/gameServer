@@ -97,6 +97,6 @@ int main()
 {
 	mysql temp;
 	temp.init();
-	temp.insertData("tong", "123456", 1);
+	temp.insertData("tong", "123456");
 	temp.unInit();
 }
