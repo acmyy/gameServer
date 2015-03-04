@@ -20,17 +20,14 @@ mysql::~mysql()
 
 bool mysql::init()
 {
-	if (conn = mysql_init(NULL) == NULL)
-	{
-		return false;
-	}
+	conn = mysql_init(NULL);
 
 	if (mysql_real_connect(conn, 
 						hostname, 
 						username, 
 						userpwd, 
 						dbname, 
-						protnum, 
+						portnum, 
 						socketname, 
 						flags) == NULL)
 	{
@@ -67,9 +64,9 @@ bool mysql::queryData(char* Username, char* Userpwd, int numflags)
 		{
 			MYSQL_ROW row;
 			uint i;
-			while (row = mysql_fetch_row(resSet) != NULL)
+			while (row = mysql_fetch_row(resSet))
 			{
-				for(i = 0; i < mysql_num_fields(res_set); i++)
+				for(i = 0; i < mysql_num_fields(resSet); i++)
 				{
 					if (i > 0)
                 		fputc('\t',stdout);
