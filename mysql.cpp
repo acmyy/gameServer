@@ -1,5 +1,5 @@
 #include "mysql.h"
-#include <mysql.h>
+#include <mysql/mysql.h>
 
 mysql::mysql()
 {
