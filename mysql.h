@@ -17,5 +17,6 @@ private:
 	char* userpwd;
 	char* socketname;
 	char* dbname;
+	int portnum;
 	uint flags ; 
 };

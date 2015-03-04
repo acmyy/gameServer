@@ -1,15 +1,16 @@
 #include "mysql.h"
-#include <mysql/mysql.h>
+
 
 mysql::mysql()
 {
-	opt_host_name = NULL;        /*服务器主机名称 默认为localhost*/
-	opt_user_name = "root";        /*数据库用户名 默认为当前登录名*/
-	opt_password = "123u123u";        /*密码 默认为空*/
-	opt_port_num = 0;            /*端口 使用内建值*/
-	opt_socket_name = NULL;    /*socket name (use build-in value)*/
-	opt_db_name = "test";        /*数据库 名称 默认为空*/
-	opt_flags = 0;      
+	conn = NULL;
+	hostname = NULL;
+	username = "root";
+	userpwd = "123u123u";
+	socketname = NULL;
+	dbname = "test";
+	flags = 0; 
+	portnum = 0;  
 }
 
 mysql::~mysql()
