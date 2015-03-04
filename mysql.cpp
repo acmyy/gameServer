@@ -86,6 +86,7 @@ bool mysql::insertData(char* Username, char* Userpwd)
 	char s[1000];
 	sprintf(s, "\"insert into UserInforkmation (username, userpwd) values ('%s','%s')\"",
 		Username, Userpwd);
+	printf("%s\n",s);
 	if (mysql_query(conn, s))
 	{
 		return false;
