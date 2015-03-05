@@ -54,13 +54,19 @@ struct NetPacket
 enum eNetOpcode  
 {  
     NET_TEST1           = 1,  
+    NET_RESULT          = 2,
 };  
   
 /// 测试1的网络数据包定义  
 struct NetPacket_Test1  
 {  
     char username[20];  
-    char userpwd[20];  
+    char userpwd[20];
+    int nCodeNum;  
 };  
 
+struct NetPacket_Result  
+{  
+    char str[100];
+};  
 #endif

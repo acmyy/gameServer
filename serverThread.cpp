@@ -66,21 +66,46 @@ void* ProcessClient(void* pConn)
 					if (nCode == 0)
 					{
 						mysqltest.insertData(test1->username, test1->userpwd);
+						NetPacketResult nettest;
+				        NetPacketHeader netheader;
+				        strcpy(nettest.str, "注册成功");
+				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+				        netheader.wOpcode = NET_RESULT; 
+				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
+				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
 					else
 					{
-						
+						NetPacketResult nettest;
+				        NetPacketHeader netheader;
+				        strcpy(nettest.str, "注册失败，您输入的用户名已存在");
+				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+				        netheader.wOpcode = NET_RESULT; 
+				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
+				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
 				}
 				else
 				{
 					if (nCode == 1)
 					{
-
+						NetPacketResult nettest;
+				        NetPacketHeader netheader;
+				        strcpy(nettest.str, "登陆成功");
+				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+				        netheader.wOpcode = NET_RESULT; 
+				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
+				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
 					else
 					{
-
+						NetPacketResult nettest;
+				        NetPacketHeader netheader;
+				        strcpy(nettest.str, "您输入的用户名不存在或者密码错误");
+				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+				        netheader.wOpcode = NET_RESULT; 
+				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
+				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
 				}
 				break;
