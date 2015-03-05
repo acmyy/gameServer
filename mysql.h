@@ -8,7 +8,7 @@ public:
 public:
 	bool init();
 	bool unInit();
-	bool queryData(char* Username, char* Userpwd, int numflags);
+	int queryData(char* Username, char* Userpwd, int numflags);
 	bool insertData(char* Username, char* Userpwd);	
 private:
 	MYSQL* conn;

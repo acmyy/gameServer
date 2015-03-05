@@ -41,13 +41,13 @@ bool mysql::unInit()
 	mysql_close(conn);
 }
 
-bool mysql::queryData(char* Username, char* Userpwd, int numflags)
+int mysql::queryData(char* Username, char* Userpwd, int numflags)
 {
 	char s[1000];
 	sprintf(s,"select * from UserInformation where username = '%s'",Username);
 	if (mysql_query(conn, s))
 	{
-		return false;
+		return -1;
 	}
 	else
 	{
@@ -58,7 +58,7 @@ bool mysql::queryData(char* Username, char* Userpwd, int numflags)
 			//if (numflags == 1)
 				//return false;
 			//else
-				return true;
+				return 0;
 		}
 		else
 		{
@@ -66,12 +66,20 @@ bool mysql::queryData(char* Username, char* Userpwd, int numflags)
 			uint i;
 			while (row = mysql_fetch_row(resSet))
 			{
-				for(i = 0; i < mysql_num_fields(resSet); i++)
+				/*for(i = 0; i < mysql_num_fields(resSet); i++)
 				{
 					if (i > 0)
                 		fputc('\t',stdout);
             		printf("%s",row[i] != NULL ? row[i] : "NULL");
-        		}
+        		}*/
+            	if (strcmp(row[1], Userpwd) == 0)
+            	{
+            		return 1;
+            	}
+            	else
+            	{
+            		return 2;
+            	}
 			}
 		}
 	}

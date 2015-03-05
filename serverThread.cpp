@@ -1,5 +1,6 @@
 #include "serverThread.h"
 #include "netpacket.h"
+#include "mysql.h"
 
 serverThread* serverThread::m_pServerThread = NULL;
 
@@ -56,8 +57,32 @@ void* ProcessClient(void* pConn)
 		{
 			case NET_TEST1:
 			{
+				mysql mysqltest;
 				NetPacket_Test1* test1 = (NetPacket_Test1* )packageContext;
 				printf("%s %s\n", test1->username, test1->userpwd); 
+				int nCode = mysqltest.queryData(test1->username, test1->userpwd, test1->nCodeNum);
+				if (test1->nCodeNum == 1 )
+				{
+					if (nCode == 0)
+					{
+						mysqltest.insertData(test1->username, test1->userpwd);
+					}
+					else
+					{
+						
+					}
+				}
+				else
+				{
+					if (nCode == 1)
+					{
+
+					}
+					else
+					{
+
+					}
+				}
 				break;
 			}
 			default:
