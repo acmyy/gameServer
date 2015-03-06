@@ -12,7 +12,7 @@
 
 #define LOG_DEBUG std::cout << __FILE__ << ":" << __LINE__ << "{" << __FUNCTION__ << "}|DEBUG|"
 #define LOG_ERROR std::cout << __FILE__ << ":" << __LINE__ << "{" << __FUNCTION__ << "}|ERROR|"
-
+using namespace std;
 int Connect()
 {
     int iSockFd = ::socket(AF_INET, SOCK_STREAM, 0);
