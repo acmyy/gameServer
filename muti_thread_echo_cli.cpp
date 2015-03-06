@@ -101,8 +101,8 @@ int main(int argc, char** argv)
     char szBuffer[1024];
     char SendBuffer[1024],GetBuffer[1024];
     std::string strName, strPwd;
-   	pthread_t iTid;
-  	pthread_create(&iTid, NULL, threadEntry, (void*)&iSockFd);
+   	//pthread_t iTid;
+  	//pthread_create(&iTid, NULL, threadEntry, (void*)&iSockFd);
     while(1)
     { 
         std::cout << "Username :" << std::endl; 
