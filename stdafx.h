@@ -67,6 +67,6 @@ struct NetPacket_Test1
 
 struct NetPacketResult  
 {  
-    char str[100];
+    int result;
 };  
 #endif
