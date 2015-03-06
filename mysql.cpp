@@ -92,7 +92,7 @@ int mysql::queryData(char* Username, char* Userpwd, int numflags)
 bool mysql::insertData(char* Username, char* Userpwd)
 {
 	char s[1000];
-	sprintf(s, "\"insert into UserInformation (username, userpwd) values ('%s','%s')\"",
+	sprintf(s, "insert into UserInformation (username, userpwd) values ('%s','%s')",
 		Username, Userpwd);
 	printf("%s\n",s);
 	if (mysql_query(conn, s))
