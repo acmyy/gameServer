@@ -12,7 +12,6 @@
 
 #define LOG_DEBUG std::cout << __FILE__ << ":" << __LINE__ << "{" << __FUNCTION__ << "}|DEBUG|"
 #define LOG_ERROR std::cout << __FILE__ << ":" << __LINE__ << "{" << __FUNCTION__ << "}|ERROR|"
-using namespace std;
 int Connect()
 {
     int iSockFd = ::socket(AF_INET, SOCK_STREAM, 0);
@@ -136,10 +135,10 @@ int main(int argc, char** argv)
           printf("=== get fialed\n");
           return NULL;
         }
-        cout<<pPackageHeader->wDataSize<< " "<<pPackageHeader->wOpcode<<endl;
+        printf("%d %d",pPackageHeader->wDataSize,pPackageHeader->wOpcode<<endl);
         memset(GetBuffer, 0, sizeof(GetBuffer));
         iRet = GetData(iSockFd, GetBuffer, pPackageHeader->wDataSize);
-        cout<<"---"<<GetBuffer<<endl;
+        printf("---%s",GetBuffer);
         std::cin.ignore(1024, '\n');;
     }
 
