@@ -96,7 +96,7 @@ void* ProcessClient(void* pConn)
 						//NetPacketResult nettest;
 						int nettest = 1;
 				        NetPacketHeader netheader;
-				        //strcpy(nettest.str, "登陆成功");
+				        printf( "登陆成功");
 				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
 				        netheader.wOpcode = NET_RESULT; 
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
@@ -107,7 +107,7 @@ void* ProcessClient(void* pConn)
 						int nettest = 0;
 						//NetPacketResult nettest;
 				        NetPacketHeader netheader;
-				        //strcpy(nettest.str, "您输入的用户名不存在或者密码错误");
+				        printf("您输入的用户名不存在或者密码错误");
 				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
 				        netheader.wOpcode = NET_RESULT; 
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
