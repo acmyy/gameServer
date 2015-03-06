@@ -82,7 +82,7 @@ void* ProcessClient(void* pConn)
 				        strcpy(nettest.str, "注册失败，您输入的用户名已存在");
 				        netheader.wDataSize = strlen(nettest.str);  ///< 数据包大小，包含封包头和封包数据大小  
 				        netheader.wOpcode = NET_RESULT; 
-				        printf("wDataSize = %d\n",netheader.wDataSize);
+				        printf("wDataSize = %d %d\n",netheader.wDataSize, sizeof(nettest));
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
 				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
