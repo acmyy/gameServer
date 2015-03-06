@@ -135,7 +135,7 @@ int main(int argc, char** argv)
           printf("=== get fialed\n");
           return NULL;
         }
-        printf("%d %d",pPackageHeader->wDataSize,pPackageHeader->wOpcode<<endl);
+        printf("%d %d",pPackageHeader->wDataSize,pPackageHeader->wOpcode);
         memset(GetBuffer, 0, sizeof(GetBuffer));
         iRet = GetData(iSockFd, GetBuffer, pPackageHeader->wDataSize);
         printf("---%s",GetBuffer);
