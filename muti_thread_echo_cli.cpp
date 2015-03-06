@@ -115,6 +115,7 @@ int main(int argc, char** argv)
         {
             NetPacket_Test1 nettest;
             NetPacketHeader netheader;
+            nettest.nCodeNum = 2;
             strcpy(nettest.username, strName.c_str());
             strcpy(nettest.userpwd, strPwd.c_str()); 
             netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
