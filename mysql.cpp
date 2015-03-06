@@ -102,11 +102,3 @@ bool mysql::insertData(char* Username, char* Userpwd)
 	return true;
 }
 
-int main()
-{
-	mysql temp;
-	temp.init();
-	temp.insertData("tong", "123456");
-	temp.queryData("tong", "123456", 1);
-	temp.unInit();
-}

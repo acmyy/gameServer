@@ -58,6 +58,7 @@ void* ProcessClient(void* pConn)
 			case NET_TEST1:
 			{
 				mysql mysqltest;
+				mysqltest.init();
 				NetPacket_Test1* test1 = (NetPacket_Test1* )packageContext;
 				printf("%s %s\n", test1->username, test1->userpwd); 
 				int nCode = mysqltest.queryData(test1->username, test1->userpwd, test1->nCodeNum);
@@ -108,6 +109,7 @@ void* ProcessClient(void* pConn)
 				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
 				}
+				mysqltest.unInit();
 				break;
 			}
 			default:

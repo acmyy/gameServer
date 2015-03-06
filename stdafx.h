@@ -65,7 +65,7 @@ struct NetPacket_Test1
     int nCodeNum;  
 };  
 
-struct NetPacket_Result  
+struct NetPacketResult  
 {  
     char str[100];
 };  
