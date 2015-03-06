@@ -70,8 +70,8 @@ void* ProcessClient(void* pConn)
 						//NetPacketResult nettest;
 						int nettest = 1;
 				        NetPacketHeader netheader;
-				        strcpy(nettest.str, "注册成功");
-				        netheader.wDataSize = strlen(nettest.str);  ///< 数据包大小，包含封包头和封包数据大小  
+				        //strcpy(nettest.str, "注册成功");
+				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
 				        netheader.wOpcode = NET_RESULT; 
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
 				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
@@ -81,8 +81,8 @@ void* ProcessClient(void* pConn)
 						int nettest = 1;
 						//NetPacketResult nettest;
 				        NetPacketHeader netheader;
-				        strcpy(nettest.str, "注册失败，您输入的用户名已存在");
-				        netheader.wDataSize = strlen(nettest.str);  ///< 数据包大小，包含封包头和封包数据大小  
+				        //strcpy(nettest.str, "注册失败，您输入的用户名已存在");
+				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
 				        netheader.wOpcode = NET_RESULT; 
 				        printf("wDataSize = %d %d\n",netheader.wDataSize, sizeof(nettest));
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
@@ -96,8 +96,8 @@ void* ProcessClient(void* pConn)
 						//NetPacketResult nettest;
 						int nettest = 1;
 				        NetPacketHeader netheader;
-				        strcpy(nettest.str, "登陆成功");
-				        netheader.wDataSize = strlen(nettest.str);  ///< 数据包大小，包含封包头和封包数据大小  
+				        //strcpy(nettest.str, "登陆成功");
+				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
 				        netheader.wOpcode = NET_RESULT; 
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
 				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
@@ -107,8 +107,8 @@ void* ProcessClient(void* pConn)
 						int nettest = 0;
 						//NetPacketResult nettest;
 				        NetPacketHeader netheader;
-				        strcpy(nettest.str, "您输入的用户名不存在或者密码错误");
-				        netheader.wDataSize = strlen(nettest.str);  ///< 数据包大小，包含封包头和封包数据大小  
+				        //strcpy(nettest.str, "您输入的用户名不存在或者密码错误");
+				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
 				        netheader.wOpcode = NET_RESULT; 
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
 				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
