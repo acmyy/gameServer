@@ -44,6 +44,7 @@ void* ProcessClient(void* pConn)
 	}
 	
 	pPackageHeader = (NetPacketHeader* )packageHead;
+	mysql mysqltest;
 	memset(packageContext, 0, sizeof(packageContext));
 	if (pPackageHeader->wDataSize > 0)
 	{
@@ -57,7 +58,6 @@ void* ProcessClient(void* pConn)
 		{
 			case NET_TEST1:
 			{
-				mysql mysqltest;
 				mysqltest.init();
 				NetPacket_Test1* test1 = (NetPacket_Test1* )packageContext;
 				printf("%s %s\n", test1->username, test1->userpwd); 
