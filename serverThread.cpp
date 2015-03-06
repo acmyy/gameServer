@@ -78,7 +78,7 @@ void* ProcessClient(void* pConn)
 					}
 					else
 					{
-						int nettest = 1;
+						int nettest = 0;
 						//NetPacketResult nettest;
 				        NetPacketHeader netheader;
 				        //strcpy(nettest.str, "注册失败，您输入的用户名已存在");
