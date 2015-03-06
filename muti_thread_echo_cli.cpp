@@ -65,6 +65,32 @@ void* threadEntry(void *arg)
 	}
 }
 
+bool GetData(int clientFd, char* pDataBuffer, const unsigned int& nDataSize )  
+{  
+    if (pDataBuffer == NULL)
+    {
+      return false;
+    }
+
+    char *p = pDataBuffer;
+    int len = nDataSize;
+    int ret = 0;
+    int returnlen = 0;
+
+    while (len > 0)
+    {
+      ret = recv(clientFd, p + (nDataSize - len), nDataSize - returnlen, 0);
+      if (ret == -1 || ret == 0)
+      {
+        return false;
+      }
+      len -= ret;
+      returnlen += ret;
+    }
+    return returnlen;
+}  
+
+
 int main(int argc, char** argv)
 {
     int iSockFd = Connect();
@@ -74,6 +100,7 @@ int main(int argc, char** argv)
     }
 
     char szBuffer[1024];
+    char SendBuffer[1024],GetBuffer[1024];
     std::string strName, strPwd;
    	pthread_t iTid;
   	pthread_create(&iTid, NULL, threadEntry, (void*)&iSockFd);
@@ -100,7 +127,19 @@ int main(int argc, char** argv)
         {
             LOG_ERROR << "message is empty!!!" << std::endl;
         }
-
+        NetPacketHeader* pPackageHeader = NULL;
+        memset(SendBuffer, 0, sizeof(SendBuffer));
+        bool iRet = GetData(iSockFd, SendBuffer, sizeof(NetPacketHeader));
+        pPackageHeader = (NetPacketHeader* )SendBuffer;;
+        if (iRet == false)
+        {
+          printf("=== get fialed\n");
+          return NULL;
+        }
+        cout<<pPackageHeader->wDataSize<< " "<<pPackageHeader->wOpcode<<endl;
+        memset(GetBuffer, 0, sizeof(GetBuffer));
+        iRet = GetData(iSockFd, GetBuffer, pPackageHeader->wDataSize);
+        cout<<"---"<<GetBuffer<<endl;
         std::cin.ignore(1024, '\n');;
     }
 
