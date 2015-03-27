@@ -53,7 +53,9 @@ connectionSocketData* serverSocket::Accept()
 	connectionSocketData* pConn = NULL;
 	struct sockaddr_in stClientAddr;
 	socklen_t uiClientAddrLen = sizeof(stClientAddr);
-	int iClientFd = ::accept(m_socketFd, (struct sockaddr*)&stClientAddr, &uiClientAddrLen);
+	int iClientFd = ::accept(m_socketFd, 
+					(struct sockaddr*)&stClientAddr, 
+					&uiClientAddrLen);
 
 	if (iClientFd < 0)
 	{

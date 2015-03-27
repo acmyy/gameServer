@@ -48,8 +48,9 @@ enum eNetOpcode
 {  
     REGISTER_CODE         = 1,  
     LOGIN_CODE          = 2,
-    SOCRE_CODE          = 3,
-	RESULT_CODE         = 4
+    GET_SCORE_CODE          = 3,
+	SCORE_CODE      = 4,
+    RESULT_CODE         = 5
 };  
   
 /// 网络数据包定义  
@@ -57,8 +58,13 @@ struct NetPacket_Register
 {  
     char username[20];  
     char userpwd[20];
-    int nCodeNum;  
 };  
+
+struct NetPacket_Score
+{
+    char username[20];  
+    int nScore;
+};
 
 struct NetPacketResult  
 {  

@@ -22,14 +22,9 @@ bool mysql::init()
 {
 	conn = mysql_init(NULL);
 
-	if (mysql_real_connect(conn, 
-						hostname, 
-						username, 
-						userpwd, 
-						dbname, 
-						portnum, 
-						socketname, 
-						flags) == NULL)
+	if (mysql_real_connect(conn, hostname, 
+		username, userpwd, dbname, 
+		portnum, socketname, flags) == NULL)
 	{
 		return false;
 	}
@@ -41,13 +36,13 @@ bool mysql::unInit()
 	mysql_close(conn);
 }
 
-int mysql::queryData(char* Username, char* Userpwd, int numflags)
+int mysql::queryData(char* Username, char* Userpwd)
 {
 	char s[1000];
 	sprintf(s,"select * from UserInformation where username = '%s'",Username);
 	if (mysql_query(conn, s))
 	{
-		return -1;
+		return 0;
 	}
 	else
 	{
@@ -55,10 +50,7 @@ int mysql::queryData(char* Username, char* Userpwd, int numflags)
 		resSet = mysql_store_result(conn);
 		if (resSet == NULL)
 		{
-			//if (numflags == 1)
-				//return false;
-			//else
-				return 0;
+			return 0;
 		}
 		else
 		{
@@ -76,10 +68,6 @@ int mysql::queryData(char* Username, char* Userpwd, int numflags)
             	{
             		return 1;
             	}
-            	else
-            	{
-            		return 2;
-            	}
 			}
 		}
 	}
@@ -87,6 +75,7 @@ int mysql::queryData(char* Username, char* Userpwd, int numflags)
 	{
 		return false;
 	}
+	return 0;
 }
 
 bool mysql::insertData(char* Username, char* Userpwd)

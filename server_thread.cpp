@@ -1,6 +1,7 @@
 #include "server_thread.h"
 #include "netpacket.h"
 #include "mysql.h"
+#include "logic_factory.h"
 
 serverThread* serverThread::m_pServerThread = NULL;
 
@@ -26,105 +27,10 @@ serverThread* serverThread::getInstance()
 void* ProcessClient(void* pConn)
 {
 	connectionSocketData stConn = *((connectionSocketData*)pConn);
+	LogicFactory logicFactory;
+	logicFactory.operatorMenu(&stConn);
 
 	printf("%s %u\n",stConn.m_szClientIP, stConn.m_usClientPort);
-	serverThread* pServerThread = serverThread::getInstance();
-	char packageHead[1024];
-	char packageContext[2048];
-
-	NetPacketHeader* pPackageHeader = NULL;
-	NETPacket netdata;
-
-	memset(packageHead, 0, sizeof(packageHead));
-	ssize_t iRet = netdata.GetData(stConn.m_iFd, packageHead, sizeof(NetPacketHeader));
-	if (iRet == false)
-	{
-		printf("=== get fialed\n");
-		return NULL;
-	}
-	
-	pPackageHeader = (NetPacketHeader* )packageHead;
-	mysql mysqltest;
-	memset(packageContext, 0, sizeof(packageContext));
-	if (pPackageHeader->uDataSize > 0)
-	{
-		iRet = netdata.GetData(stConn.m_iFd, packageContext, pPackageHeader->uDataSize);
-		if (iRet == false)
-		{
-			printf("=== get fialed\n");
-			return NULL;
-		}
-		switch (pPackageHeader->uOpcode)
-		{
-			case REGISTER_CODE:
-			{
-				mysqltest.init();
-				NetPacket_Register* test1 = (NetPacket_Register* )packageContext;
-				printf("%s %s\n", test1->username, test1->userpwd); 
-				int nCode = mysqltest.queryData(test1->username, test1->userpwd, test1->nCodeNum);
-				if (test1->nCodeNum == 1 )
-				{
-					if (nCode == 0)
-					{
-						mysqltest.insertData(test1->username, test1->userpwd);
-						NetPacketResult nettest;
-						nettest.result = 1;
-				        NetPacketHeader netheader;
-				        //strcpy(nettest.str, "注册成功");
-				        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
-				        netheader.uOpcode = RESULT_CODE; 
-				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
-				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
-					}
-					else
-					{
-						NetPacketResult nettest;
-						nettest.result = 0;
-				        NetPacketHeader netheader;
-				        //strcpy(nettest.str, "注册失败，您输入的用户名已存在");
-				        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
-				        netheader.uOpcode = RESULT_CODE; 
-				        printf("wDataSize = %d %d\n",netheader.uDataSize, sizeof(nettest));
-				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
-				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
-					}
-				}
-				else
-				{
-					if (nCode == 1)
-					{
-						NetPacketResult nettest;
-						nettest.result = 1;
-				        NetPacketHeader netheader;
-				        printf( "登陆成功");
-				        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
-				        netheader.uOpcode = RESULT_CODE; 
-				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
-				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
-					}
-					else
-					{
-						NetPacketResult nettest;
-						nettest.result = 0;
-				        NetPacketHeader netheader;
-				        printf("您输入的用户名不存在或者密码错误");
-				        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
-				        netheader.uOpcode = RESULT_CODE; 
-				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
-				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
-					}
-				}
-				mysqltest.unInit();
-				break;
-			}
-			default:
-			break;
-		}
-	}
-	else
-	{
-		printf("getfialed\n");
-	}
 }
 
 void* ThreadRoutine(void* arg)
