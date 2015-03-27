@@ -126,17 +126,13 @@ bool mysql::insertData(char* Username, char* Userpwd)
 }
 
 bool mysql::UpdateData(char* Username, int nScore)
-{/*
-
-	char cmd[1000];
-	sprintf(cmd, "update UserInformation set score = %d where name = %s",
-		nScore, Username);
-　　
+{
+	char cmd[1024];
+	sprintf(cmd, "update UserInformation set score = %d where name = '%s'", nScore, Username);
 	int ret = mysql_query(conn, cmd);
-　　if(ret !=0)
-　　{
-　　　　printf("Database Update Info: not exist, I am insert.\n");
-　　　　return false;
-　　}
-　　return true;
-*/}
+	if (ret != 0)
+	{
+		return false;
+	}
+	return true;
+}
