@@ -48,7 +48,8 @@ enum eNetOpcode
 {  
     REGISTER_CODE         = 1,  
     LOGIN_CODE          = 2,
-    SOCRE_CODE          = 3
+    SOCRE_CODE          = 3,
+	RESULT_CODE         = 4
 };  
   
 /// 网络数据包定义  
@@ -59,7 +60,7 @@ struct NetPacket_Register
     int nCodeNum;  
 };  
 
-struct NetPacket_Result  
+struct NetPacketResult  
 {  
     int result;
 };  

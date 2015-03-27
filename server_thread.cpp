@@ -1,4 +1,4 @@
-#include "serverThread.h"
+#include "server_thread.h"
 #include "netpacket.h"
 #include "mysql.h"
 
@@ -28,7 +28,7 @@ void* ProcessClient(void* pConn)
 	connectionSocketData stConn = *((connectionSocketData*)pConn);
 
 	printf("%s %u\n",stConn.m_szClientIP, stConn.m_usClientPort);
-    serverThread* pServerThread = serverThread::getInstance();
+	serverThread* pServerThread = serverThread::getInstance();
 	char packageHead[1024];
 	char packageContext[2048];
 
@@ -46,20 +46,20 @@ void* ProcessClient(void* pConn)
 	pPackageHeader = (NetPacketHeader* )packageHead;
 	mysql mysqltest;
 	memset(packageContext, 0, sizeof(packageContext));
-	if (pPackageHeader->wDataSize > 0)
+	if (pPackageHeader->uDataSize > 0)
 	{
-		iRet = netdata.GetData(stConn.m_iFd, packageContext, pPackageHeader->wDataSize);
+		iRet = netdata.GetData(stConn.m_iFd, packageContext, pPackageHeader->uDataSize);
 		if (iRet == false)
 		{
 			printf("=== get fialed\n");
 			return NULL;
 		}
-		switch (pPackageHeader->wOpcode)
+		switch (pPackageHeader->uOpcode)
 		{
-			case NET_TEST1:
+			case REGISTER_CODE:
 			{
 				mysqltest.init();
-				NetPacket_Test1* test1 = (NetPacket_Test1* )packageContext;
+				NetPacket_Register* test1 = (NetPacket_Register* )packageContext;
 				printf("%s %s\n", test1->username, test1->userpwd); 
 				int nCode = mysqltest.queryData(test1->username, test1->userpwd, test1->nCodeNum);
 				if (test1->nCodeNum == 1 )
@@ -71,8 +71,8 @@ void* ProcessClient(void* pConn)
 						nettest.result = 1;
 				        NetPacketHeader netheader;
 				        //strcpy(nettest.str, "注册成功");
-				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
-				        netheader.wOpcode = NET_RESULT; 
+				        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+				        netheader.uOpcode = RESULT_CODE; 
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
 				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
@@ -82,9 +82,9 @@ void* ProcessClient(void* pConn)
 						nettest.result = 0;
 				        NetPacketHeader netheader;
 				        //strcpy(nettest.str, "注册失败，您输入的用户名已存在");
-				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
-				        netheader.wOpcode = NET_RESULT; 
-				        printf("wDataSize = %d %d\n",netheader.wDataSize, sizeof(nettest));
+				        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+				        netheader.uOpcode = RESULT_CODE; 
+				        printf("wDataSize = %d %d\n",netheader.uDataSize, sizeof(nettest));
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
 				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
@@ -97,8 +97,8 @@ void* ProcessClient(void* pConn)
 						nettest.result = 1;
 				        NetPacketHeader netheader;
 				        printf( "登陆成功");
-				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
-				        netheader.wOpcode = NET_RESULT; 
+				        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+				        netheader.uOpcode = RESULT_CODE; 
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
 				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
@@ -108,8 +108,8 @@ void* ProcessClient(void* pConn)
 						nettest.result = 0;
 				        NetPacketHeader netheader;
 				        printf("您输入的用户名不存在或者密码错误");
-				        netheader.wDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
-				        netheader.wOpcode = NET_RESULT; 
+				        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+				        netheader.uOpcode = RESULT_CODE; 
 				        ::write(stConn.m_iFd, (char*)&netheader, sizeof(netheader));
 				        ::write(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
 					}
@@ -192,7 +192,7 @@ int serverThread::PoolAddWorker(void *arg)
 	newWorker->arg = arg;
 	newWorker->next = NULL;
 
-	connection_desc_t stConn = *((connection_desc_t*)arg);
+	connectionSocketData stConn = *((connectionSocketData*)arg);
 	m_SocketMap[stConn.m_iFd] = stConn.m_iFd;
 	pthread_mutex_lock(&m_queueLock);
 

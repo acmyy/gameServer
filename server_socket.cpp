@@ -1,5 +1,5 @@
-#include"serverSocket.h"
-#include"serverThread.h"
+#include"server_socket.h"
+#include"server_thread.h"
 serverSocket::serverSocket():m_socketFd(-1)
 {
 	
