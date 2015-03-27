@@ -68,14 +68,30 @@ bool LogicFactory::registerOperator()
 
 bool LogicFactory::getSocre()
 {
-	//int nCode = m_mysqltest.queryData(test1->username, test1->userpwd);
+	std::vector<NetPacket_Score* > scoreVec;
+    NetPacketHeader netheader;
+	int nCode = m_mysqltest.queryData(scoreVec);
+	if (!nCode)
+	{
+		return false;
+	}
+	for (int nIndex = 0; nIndex < scoreVec.size(); nIndex++)
+	{
+        netheader.uDataSize = sizeof(NetPacket_Score);  
+        netheader.uOpcode = SCORE_CODE; 
+        netdata.SendData(m_pConn->m_iFd, (char*)&netheader, sizeof(netheader));
+   		netdata.SendData(m_pConn->m_iFd, (char*)scoreVec[nIndex], sizeof(NetPacket_Score));
+	}
+	return true;
 }
 
 bool LogicFactory::setSocre()
 {
 	NetPacket_Score* test1 = (NetPacket_Score* )packageContext;
-//	printf("%s %s\n", test1->username, test1->userpwd); 
-	//int nCode = m_mysqltest.insertData(test1->username, test1->userpwd);
+	int nCode = m_mysqltest.UpdateData(test1->username, test1->nScore);
+	if (nCode)
+		return true;
+	return false;
 }
 
 bool LogicFactory::operatorMenu()

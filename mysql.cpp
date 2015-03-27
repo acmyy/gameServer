@@ -78,6 +78,50 @@ int mysql::queryData(char* Username, char* Userpwd)
 	return 0;
 }
 
+
+int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
+{
+	char s[1000];
+	sprintf(s,"select * from UserInformation where username = '%s'",Username);
+	if (mysql_query(conn, s))
+	{
+		return 0;
+	}
+	else
+	{
+		MYSQL_RES* resSet;
+		resSet = mysql_store_result(conn);
+		if (resSet == NULL)
+		{
+			return 0;
+		}
+		else
+		{
+			MYSQL_ROW row;
+			uint i;
+			while (row = mysql_fetch_row(resSet))
+			{
+				/*for(i = 0; i < mysql_num_fields(resSet); i++)
+				{
+					if (i > 0)
+                		fputc('\t',stdout);
+            		printf("%s",row[i] != NULL ? row[i] : "NULL");
+        		}*/
+            	if (strcmp(row[1], Userpwd) == 0)
+            	{
+            		return 1;
+            	}
+			}
+		}
+	}
+	if (mysql_errno(conn) != 0)
+	{
+		return false;
+	}
+	return 0;
+}
+
+
 bool mysql::insertData(char* Username, char* Userpwd)
 {
 	char s[1000];
@@ -91,3 +135,18 @@ bool mysql::insertData(char* Username, char* Userpwd)
 	return true;
 }
 
+bool mysql::UpdateData(char* Username, int nScore)
+{
+
+	char cmd[1000];
+	sprintf(cmd, "update UserInformation set score = %d where name = %s",
+		nScore, Username);
+　　
+	int ret = mysql_query(conn, cmd);
+　　if(ret !=0)
+　　{
+　　　　printf("Database Update Info: not exist, I am insert.\n");
+　　　　return false;
+　　}
+　　return true;
+}
