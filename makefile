@@ -3,9 +3,11 @@ CXX = g++
 
 CCFLAGS = -g -o
 
-server : test_server.o netpacket.o server_socket.o server_thread.o mysql.o
-	$(CXX) -o server test_server.o netpacket.o server_socket.o server_thread.o mysql.o -lpthread -lmysqlclient 
+server : test_server.o netpacket.o server_socket.o server_thread.o mysql.o logic_factory.o
+	$(CXX) -o server test_server.o netpacket.o server_socket.o server_thread.o mysql.o logic_factory.o -lpthread -lmysqlclient 
 
+logic_factory.o : logic_factory.cpp
+	$(CXX) -c logic_factory.cpp -lmysqlclient 
 test_server.o : test_server.cpp
 	$(CXX) -c test_server.cpp 
 netpacket.o : netpacket.cpp

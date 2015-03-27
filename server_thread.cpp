@@ -1,6 +1,4 @@
 #include "server_thread.h"
-#include "netpacket.h"
-#include "mysql.h"
 #include "logic_factory.h"
 
 serverThread* serverThread::m_pServerThread = NULL;
@@ -27,8 +25,8 @@ serverThread* serverThread::getInstance()
 void* ProcessClient(void* pConn)
 {
 	connectionSocketData stConn = *((connectionSocketData*)pConn);
-	LogicFactory logicFactory;
-	logicFactory.operatorMenu(&stConn);
+	LogicFactory* logicFactory = new LogicFactory(&stConn);
+	logicFactory->operatorMenu();
 
 	printf("%s %u\n",stConn.m_szClientIP, stConn.m_usClientPort);
 }

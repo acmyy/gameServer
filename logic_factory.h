@@ -1,7 +1,10 @@
+#include "mysql.h"
+#include "stdafx.h"
+#include "netpacket.h"
 class LogicFactory
 {
 public:
-	LogicFactory();
+	LogicFactory(connectionSocketData* pConn);
 	~LogicFactory();
 
 public:
@@ -17,5 +20,5 @@ private:
 	NETPacket netdata;
 	char packageHead[1024];
 	char packageContext[2048];
-	connectionSocketData pConn;
+	connectionSocketData* m_pConn;
 };

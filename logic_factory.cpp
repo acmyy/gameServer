@@ -1,14 +1,14 @@
 #include "logic_factory.h"
-#include "mysql.h"
 #include "stdafx.h"
-LogicFactory::LogicFactory()
+LogicFactory::LogicFactory(connectionSocketData* pConn)
 {
 	m_mysqltest.init();
+	m_pConn = pConn;
 }
 
 LogicFactory::~LogicFactory()
 {
-	mysqltest.unInit();
+	m_mysqltest.unInit();
 }
 
 
@@ -18,7 +18,7 @@ bool LogicFactory::loginOperator()
     NetPacketHeader netheader;
 	NetPacket_Register* test1 = (NetPacket_Register* )packageContext;
 	printf("%s %s\n", test1->username, test1->userpwd); 
-	int nCode = m_mysqltest.query(test1->username, test1->userpwd);
+	int nCode = m_mysqltest.queryData(test1->username, test1->userpwd);
 	
 	if (nCode == 1)
 	{
@@ -35,8 +35,8 @@ bool LogicFactory::loginOperator()
         netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
         netheader.uOpcode = RESULT_CODE; 
 	}
-    netdata.sendData(pConn.m_iFd, (char*)&netheader, sizeof(netheader));
-    netdata.sendData(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
+    netdata.SendData(m_pConn->m_iFd, (char*)&netheader, sizeof(netheader));
+    netdata.SendData(m_pConn->m_iFd, (char*)&nettest, sizeof(nettest));
 }
 
 bool LogicFactory::registerOperator()
@@ -62,8 +62,8 @@ bool LogicFactory::registerOperator()
         netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
         netheader.uOpcode = RESULT_CODE; 
 	}
-    netdata.sendData(pConn.m_iFd, (char*)&netheader, sizeof(netheader));
-    netdata.sendData(stConn.m_iFd, (char*)&nettest, sizeof(nettest));
+    netdata.SendData(m_pConn->m_iFd, (char*)&netheader, sizeof(netheader));
+    netdata.SendData(m_pConn->m_iFd, (char*)&nettest, sizeof(nettest));
 }
 
 bool LogicFactory::getSocre()
@@ -74,7 +74,7 @@ bool LogicFactory::getSocre()
 bool LogicFactory::setSocre()
 {
 	NetPacket_Score* test1 = (NetPacket_Score* )packageContext;
-	printf("%s %s\n", test1->username, test1->userpwd); 
+//	printf("%s %s\n", test1->username, test1->userpwd); 
 	//int nCode = m_mysqltest.insertData(test1->username, test1->userpwd);
 }
 
@@ -83,7 +83,7 @@ bool LogicFactory::operatorMenu()
 	NetPacketHeader* pPackageHeader = NULL;
 	unsigned int uOpcode;
 	memset(packageHead, 0, sizeof(packageHead));
-	ssize_t iRet = netdata.GetData(pConn.m_iFd, 
+	ssize_t iRet = netdata.GetData(m_pConn->m_iFd, 
 					packageHead, sizeof(NetPacketHeader));
 	
 	if (iRet == false)
@@ -98,7 +98,7 @@ bool LogicFactory::operatorMenu()
 
 	if (pPackageHeader->uDataSize > 0)
 	{
-		iRet = netdata.GetData(pConn.m_iFd, 
+		iRet = netdata.GetData(m_pConn->m_iFd, 
 				packageContext, pPackageHeader->uDataSize);
 		
 		if (iRet == false)
@@ -125,7 +125,7 @@ bool LogicFactory::operatorMenu()
     		getSocre();
     		break;
     	}  
-    	case SCORE_CODE
+    	case SCORE_CODE:
     	{
     		setSocre();
     		break;
