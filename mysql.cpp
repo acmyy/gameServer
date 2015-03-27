@@ -82,7 +82,7 @@ int mysql::queryData(char* Username, char* Userpwd)
 int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 {
 	char s[1000];
-	sprintf(s,"select * from UserInformation where username = '%s'",Username);
+	sprintf(s,"select * from UserInformation ORDER BY score DESC");
 	if (mysql_query(conn, s))
 	{
 		return 0;
