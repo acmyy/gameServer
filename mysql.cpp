@@ -107,10 +107,6 @@ int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
                 		fputc('\t',stdout);
             		printf("%s",row[i] != NULL ? row[i] : "NULL");
         		}*/
-            	if (strcmp(row[1], Userpwd) == 0)
-            	{
-            		return 1;
-            	}
 			}
 		}
 	}
@@ -136,7 +132,7 @@ bool mysql::insertData(char* Username, char* Userpwd)
 }
 
 bool mysql::UpdateData(char* Username, int nScore)
-{
+{/*
 
 	char cmd[1000];
 	sprintf(cmd, "update UserInformation set score = %d where name = %s",
@@ -149,4 +145,4 @@ bool mysql::UpdateData(char* Username, int nScore)
 　　　　return false;
 　　}
 　　return true;
-}
+*/}
