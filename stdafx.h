@@ -64,6 +64,12 @@ struct NetPacket_Score
 {
     char username[20];  
     int nScore;
+    NetPacket_Score(){}
+    NetPacket_Score(char* strtemp, int score)
+    {
+        strcmp(username, strtemp);
+        nScore = score;
+    }
 };
 
 struct NetPacketResult  

@@ -58,12 +58,6 @@ int mysql::queryData(char* Username, char* Userpwd)
 			uint i;
 			while (row = mysql_fetch_row(resSet))
 			{
-				/*for(i = 0; i < mysql_num_fields(resSet); i++)
-				{
-					if (i > 0)
-                		fputc('\t',stdout);
-            		printf("%s",row[i] != NULL ? row[i] : "NULL");
-        		}*/
             	if (strcmp(row[1], Userpwd) == 0)
             	{
             		return 1;
@@ -98,15 +92,15 @@ int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 		else
 		{
 			MYSQL_ROW row;
-			uint i;
+			uint i = 0;
 			while (row = mysql_fetch_row(resSet))
 			{
-				/*for(i = 0; i < mysql_num_fields(resSet); i++)
+				scoreVec.push_back(new NetPacket_Score(row[0], row[2]));
+				i++;
+				if (i >= 10)
 				{
-					if (i > 0)
-                		fputc('\t',stdout);
-            		printf("%s",row[i] != NULL ? row[i] : "NULL");
-        		}*/
+					break;
+				}
 			}
 		}
 	}
