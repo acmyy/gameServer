@@ -3,28 +3,24 @@ CXX = g++
 
 CCFLAGS = -g -o
 
-server : test.o netpacket.o serverSocket.o serverThread.o mysql.o
-	$(CXX) -o server test.o netpacket.o serverSocket.o serverThread.o mysql.o -lpthread -lmysqlclient 
+server : test_server.o netpacket.o server_socket.o server_thread.o mysql.o
+	$(CXX) -o server test_server.o netpacket.o server_socket.o server_thread.o mysql.o -lpthread -lmysqlclient 
 
-test.o : test.cpp
-	$(CXX) -c test.cpp 
+test_server.o : test_server.cpp
+	$(CXX) -c test_server.cpp 
 netpacket.o : netpacket.cpp
 	$(CXX) -c netpacket.cpp
-serverSocket.o : serverSocket.cpp
-	$(CXX) -c serverSocket.cpp
-serverThread.o : serverThread.cpp
-	$(CXX) -c serverThread.cpp -lpthread
+server_socket.o : server_socket.cpp
+	$(CXX) -c server_socket.cpp
+server_thread.o : server_thread.cpp
+	$(CXX) -c server_thread.cpp -lpthread
 mysql.o : mysql.cpp
 	$(CXX) -c mysql.cpp -lmysqlclient
 
-client : muti_thread_echo_cli.o netpacket.o
-	$(CXX) -o client muti_thread_echo_cli.o netpacket.o -lpthread
 
-muti_thread_echo_cli.o : muti_thread_echo_cli.cpp
-	$(CXX) -c muti_thread_echo_cli.cpp
 
-all: server client 
+all: server  
 	@echo "complie done!"
 
 clean :
-	rm -rf server client 
+	rm -rf server 
