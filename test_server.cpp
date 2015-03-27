@@ -6,9 +6,9 @@ int main()
 	serverSocket server;
 	server.init();
 	
-	//serverThread* pServerThread = serverThread::getInstance();
-    //pServerThread->PoolInit();
-	//printf("server is ready\n");
+	serverThread* pServerThread = serverThread::getInstance();
+    pServerThread->PoolInit();
+	printf("server is ready\n");
 
 	while (1)
 	{
@@ -16,8 +16,8 @@ int main()
 
 		if (pConn != NULL)
 		{
-			//printf("port:%d Accept Success\n", pConn->m_usClientPort);
-			//pServerThread->PoolAddWorker((void*)pConn);		
+			printf("port:%d Accept Success\n", pConn->m_usClientPort);
+			pServerThread->PoolAddWorker((void*)pConn);		
 		}
 	}
 
