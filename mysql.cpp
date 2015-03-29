@@ -95,7 +95,7 @@ int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 			uint i = 0;
 			while (row = mysql_fetch_row(resSet))
 			{
-				scoreVec.push_back(new NetPacket_Score(row[0], row[2]));
+				scoreVec.push_back(new NetPacket_Score(row[0], *(int *)row[2]));
 				i++;
 				if (i >= 10)
 				{
@@ -126,17 +126,13 @@ bool mysql::insertData(char* Username, char* Userpwd)
 }
 
 bool mysql::UpdateData(char* Username, int nScore)
-{/*
-
-	char cmd[1000];
-	sprintf(cmd, "update UserInformation set score = %d where name = %s",
-		nScore, Username);
-　　
+{
+	char cmd[1024];
+	sprintf(cmd, "update UserInformation set score = %d where name = '%s'", nScore, Username);
 	int ret = mysql_query(conn, cmd);
-　　if(ret !=0)
-　　{
-　　　　printf("Database Update Info: not exist, I am insert.\n");
-　　　　return false;
-　　}
-　　return true;
-*/}
+	if (ret != 0)
+	{
+		return false;
+	}
+	return true;
+}
