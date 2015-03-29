@@ -17,8 +17,8 @@ bool LogicFactory::loginOperator()
 	NetPacketResult nettest;
     NetPacketHeader netheader;
 	NetPacket_Register* test1 = (NetPacket_Register* )packageContext;
-	printf("%s %s\n", test1->strUserName, test1->strUserPwd); 
-	int nCode = m_mysqltest.queryData(test1->strUserName, test1->strUserPwd);
+	printf("%s %s\n", test1->strUserName.c_str(), test1->strUserPwd.c_str()); 
+	int nCode = m_mysqltest.queryData(test1->strUserName.c_str(), test1->strUserPwd.c_str());
 	
 	if (nCode == 1)
 	{
