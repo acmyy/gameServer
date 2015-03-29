@@ -80,6 +80,7 @@ bool LogicFactory::getSocre()
 	{
         netheader.uDataSize = sizeof(NetPacket_Score);  
         netheader.uOpcode = SCORE_CODE; 
+		printf("%s %d\n",scoreVec[nIndex]->strUserName, scoreVec[nIndex]->nScore);
         netdata.SendData(m_pConn->m_iFd, (char*)&netheader, sizeof(netheader));
    		netdata.SendData(m_pConn->m_iFd, (char*)scoreVec[nIndex], sizeof(NetPacket_Score));
 	}
