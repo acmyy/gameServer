@@ -90,9 +90,24 @@ bool LogicFactory::setSocre()
 {
 	NetPacket_Score* test1 = (NetPacket_Score* )packageContext;
 	int nCode = m_mysqltest.UpdateData(test1->strUserName, test1->nScore);
+	
 	if (nCode)
-		return true;
-	return false;
+	{
+		nettest.result = 1;
+        printf( "分数设置成功\n");
+        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+        netheader.uOpcode = RESULT_CODE; 
+	}
+	else
+	{
+		nettest.result = 0;
+        NetPacketHeader netheader;
+        printf("分数更新失败\n");
+        netheader.uDataSize = sizeof(nettest);  ///< 数据包大小，包含封包头和封包数据大小  
+        netheader.uOpcode = RESULT_CODE; 
+	}
+    netdata.SendData(m_pConn->m_iFd, (char*)&netheader, sizeof(netheader));
+    netdata.SendData(m_pConn->m_iFd, (char*)&nettest, sizeof(nettest));
 }
 
 bool LogicFactory::operatorMenu()
