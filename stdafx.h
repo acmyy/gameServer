@@ -10,7 +10,7 @@
 #include<map>
 #include<queue>
 #include<errno.h>
-
+#include<string>
 
 #ifndef _TYPEDEF_STRUCT_
 #define _TYPEDEF_STRUCT_

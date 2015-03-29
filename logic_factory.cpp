@@ -88,7 +88,7 @@ bool LogicFactory::getSocre()
 bool LogicFactory::setSocre()
 {
 	NetPacket_Score* test1 = (NetPacket_Score* )packageContext;
-	int nCode = m_mysqltest.UpdateData(test1->strUserName.c_str(), test1->nScore.c_str();
+	int nCode = m_mysqltest.UpdateData(test1->strUserName.c_str(), test1->nScore);
 	if (nCode)
 		return true;
 	return false;
