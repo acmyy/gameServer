@@ -8,10 +8,10 @@ public:
 public:
 	bool init();
 	bool unInit();
-	int queryData(char* Username, char* Userpwd);
+	int queryData(const char* Username, const char* Userpwd);
 	int queryData(std::vector<NetPacket_Score* >& scoreVec);
-	bool insertData(char* Username, char* Userpwd);	
-	bool UpdateData(char* Username, int nScore);
+	bool insertData(const char* Username, const char* Userpwd);	
+	bool UpdateData(const char* Username, int nScore);
 private:
 	MYSQL* conn;
 	char* hostname;

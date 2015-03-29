@@ -44,8 +44,8 @@ bool LogicFactory::registerOperator()
 	NetPacketResult nettest;
     NetPacketHeader netheader;
 	NetPacket_Register* test1 = (NetPacket_Register* )packageContext;
-	printf("%s %s\n", test1->strUserName, test1->strUserPwd); 
-	bool nCode = m_mysqltest.insertData(test1->strUserName, test1->strUserPwd);
+	printf("%s %s\n", test1->strUserName.c_str(), test1->strUserPwd.c_str()); 
+	bool nCode = m_mysqltest.insertData(test1->strUserName.c_str(), test1->strUserPwd.c_str());
 	
 	if (nCode)
 	{
@@ -88,7 +88,7 @@ bool LogicFactory::getSocre()
 bool LogicFactory::setSocre()
 {
 	NetPacket_Score* test1 = (NetPacket_Score* )packageContext;
-	int nCode = m_mysqltest.UpdateData(test1->strUserName, test1->nScore);
+	int nCode = m_mysqltest.UpdateData(test1->strUserName.c_str(), test1->nScore.c_str();
 	if (nCode)
 		return true;
 	return false;

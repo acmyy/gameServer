@@ -36,7 +36,7 @@ bool mysql::unInit()
 	mysql_close(conn);
 }
 
-int mysql::queryData(char* Username, char* Userpwd)
+int mysql::queryData(const char* Username, const char* Userpwd)
 {
 	char s[1000];
 	sprintf(s,"select * from UserInformation where username = '%s'",Username);
@@ -112,7 +112,7 @@ int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 }
 
 
-bool mysql::insertData(char* Username, char* Userpwd)
+bool mysql::insertData(const char* Username, const char* Userpwd)
 {
 	char s[1000];
 	sprintf(s, "insert into UserInformation (username, userpwd) values ('%s','%s')",
@@ -125,7 +125,7 @@ bool mysql::insertData(char* Username, char* Userpwd)
 	return true;
 }
 
-bool mysql::UpdateData(char* Username, int nScore)
+bool mysql::UpdateData(const char* Username, int nScore)
 {
 	char cmd[1024];
 	sprintf(cmd, "update UserInformation set score = %d where name = '%s'", nScore, Username);
