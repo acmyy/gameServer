@@ -25,11 +25,13 @@ serverThread* serverThread::getInstance()
 void* ProcessClient(void* pConn)
 {
 	connectionSocketData stConn = *((connectionSocketData*)pConn);
+
+	printf("%s %u\n",stConn.m_szClientIP, stConn.m_usClientPort);
+
 	LogicFactory* logicFactory = new LogicFactory(&stConn);
 	logicFactory->operatorMenu();
 
-	printf("%s %u\n",stConn.m_szClientIP, stConn.m_usClientPort);
-}
+	}
 
 void* ThreadRoutine(void* arg)
 {

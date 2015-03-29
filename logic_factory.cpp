@@ -15,10 +15,11 @@ LogicFactory::~LogicFactory()
 bool LogicFactory::loginOperator()
 {
 	NetPacketResult nettest;
-    NetPacketHeader netheader;
+    	NetPacketHeader netheader;
 	NetPacket_Register* test1 = (NetPacket_Register* )packageContext;
-	printf("%s %s\n", test1->strUserName.c_str(), test1->strUserPwd.c_str()); 
-	int nCode = m_mysqltest.queryData(test1->strUserName.c_str(), test1->strUserPwd.c_str());
+	printf("====login test===\n");
+	printf("%s %s\n", test1->strUserName, test1->strUserPwd); 
+	int nCode = m_mysqltest.queryData(test1->strUserName, test1->strUserPwd);
 	
 	if (nCode == 1)
 	{
@@ -44,8 +45,8 @@ bool LogicFactory::registerOperator()
 	NetPacketResult nettest;
     NetPacketHeader netheader;
 	NetPacket_Register* test1 = (NetPacket_Register* )packageContext;
-	printf("%s %s\n", test1->strUserName.c_str(), test1->strUserPwd.c_str()); 
-	bool nCode = m_mysqltest.insertData(test1->strUserName.c_str(), test1->strUserPwd.c_str());
+	printf("%s %s\n", test1->strUserName, test1->strUserPwd); 
+	bool nCode = m_mysqltest.insertData(test1->strUserName, test1->strUserPwd);
 	
 	if (nCode)
 	{
@@ -88,7 +89,7 @@ bool LogicFactory::getSocre()
 bool LogicFactory::setSocre()
 {
 	NetPacket_Score* test1 = (NetPacket_Score* )packageContext;
-	int nCode = m_mysqltest.UpdateData(test1->strUserName.c_str(), test1->nScore);
+	int nCode = m_mysqltest.UpdateData(test1->strUserName, test1->nScore);
 	if (nCode)
 		return true;
 	return false;
@@ -109,6 +110,8 @@ bool LogicFactory::operatorMenu()
 	}
 	
 	pPackageHeader = (NetPacketHeader* )packageHead;
+
+	printf("%u %u\n", pPackageHeader->uDataSize, pPackageHeader->uOpcode);
 	memset(packageContext, 0, sizeof(packageContext));
 	uOpcode = pPackageHeader->uOpcode;
 

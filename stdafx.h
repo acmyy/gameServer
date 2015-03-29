@@ -56,18 +56,18 @@ enum eNetOpcode
 /// 网络数据包定义  
 struct NetPacket_Register  
 {  
-    std::string strUserName;  
-    std::string strUserPwd;
+    char strUserName[30];  
+    char strUserPwd[30];
 };  
 
 struct NetPacket_Score
 {
-    std::string strUserName;  
+    char strUserName[30];  
     int nScore;
     NetPacket_Score(){}
     NetPacket_Score(char* strtemp, int score)
     {
-        strUserName = strtemp;
+        strcmp(strUserName, strtemp);
         nScore = score;
     }
 };
