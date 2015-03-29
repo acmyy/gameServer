@@ -89,7 +89,11 @@ bool LogicFactory::getSocre()
 bool LogicFactory::setSocre()
 {
 	NetPacket_Score* test1 = (NetPacket_Score* )packageContext;
+
+	printf("%s %d\n",test1->strUserName, test1->nScore);
 	int nCode = m_mysqltest.UpdateData(test1->strUserName, test1->nScore);
+	NetPacketResult nettest;	
+	NetPacketHeader netheader;
 	
 	if (nCode)
 	{

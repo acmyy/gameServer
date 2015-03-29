@@ -79,6 +79,7 @@ int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 	sprintf(s,"select * from UserInformation ORDER BY score DESC");
 	if (mysql_query(conn, s))
 	{
+		printf("query faled\n");
 		return 0;
 	}
 	else
@@ -95,6 +96,7 @@ int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 			uint i = 0;
 			while (row = mysql_fetch_row(resSet))
 			{
+				printf("%s %s %s\n", row[0],row[1], row[2]);
 				scoreVec.push_back(new NetPacket_Score(row[0], *(int *)row[2]));
 				i++;
 				if (i >= 10)
@@ -115,7 +117,7 @@ int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 bool mysql::insertData(const char* Username, const char* Userpwd)
 {
 	char s[1000];
-	sprintf(s, "insert into UserInformation (username, userpwd) values ('%s','%s')",
+	sprintf(s, "insert into UserInformation (username, userpwd, score) values ('%s','%s', '0')",
 		Username, Userpwd);
 	printf("%s\n",s);
 	if (mysql_query(conn, s))
@@ -128,7 +130,7 @@ bool mysql::insertData(const char* Username, const char* Userpwd)
 bool mysql::UpdateData(const char* Username, int nScore)
 {
 	char cmd[1024];
-	sprintf(cmd, "update UserInformation set score = %d where name = '%s'", nScore, Username);
+	sprintf(cmd, "update UserInformation set score = %d where username = '%s'", nScore, Username);
 	int ret = mysql_query(conn, cmd);
 	if (ret != 0)
 	{
