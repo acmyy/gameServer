@@ -95,7 +95,7 @@ int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 			uint i = 0;
 			while (row = mysql_fetch_row(resSet))
 			{
-				scoreVec.push_back(new NetPacket_Score(row[0], row[2]));
+				scoreVec.push_back(new NetPacket_Score(row[0], *(int *)row[2]));
 				i++;
 				if (i >= 10)
 				{
