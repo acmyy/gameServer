@@ -76,13 +76,17 @@ bool LogicFactory::getSocre()
 	{
 		return false;
 	}
+	printf("%d\n",scoreVec.size());
+	NetPacket_Score nettest;
 	for (int nIndex = 0; nIndex < scoreVec.size(); nIndex++)
 	{
         netheader.uDataSize = sizeof(NetPacket_Score);  
-        netheader.uOpcode = SCORE_CODE; 
+        netheader.uOpcode = GET_SCORE_CODE; 
 		printf("%s %d\n",scoreVec[nIndex]->strUserName, scoreVec[nIndex]->nScore);
         netdata.SendData(m_pConn->m_iFd, (char*)&netheader, sizeof(netheader));
-   		netdata.SendData(m_pConn->m_iFd, (char*)scoreVec[nIndex], sizeof(NetPacket_Score));
+   	nettest = *scoreVec[nIndex];	
+	netdata.SendData(m_pConn->m_iFd, (char*)scoreVec[nIndex], sizeof(nettest));
+	printf("sizeof(nettest) =%d\n", sizeof(nettest));
 	}
 	return true;
 }

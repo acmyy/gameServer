@@ -67,7 +67,7 @@ struct NetPacket_Score
     NetPacket_Score(){}
     NetPacket_Score(char* strtemp, int score)
     {
-        strcmp(strUserName, strtemp);
+        strcpy(strUserName, strtemp);
         nScore = score;
     }
 };
