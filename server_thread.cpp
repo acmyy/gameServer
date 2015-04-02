@@ -35,7 +35,7 @@ void* ProcessClient(void* pConn)
 
 void* ThreadRoutine(void* arg)
 {
-	printf("starting thread %lu\n",pthread_self());
+	//printf("starting thread %lu\n",pthread_self());
 	
 	serverThread* pServerThread = serverThread::getInstance();
 	while (1)

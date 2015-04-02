@@ -5,7 +5,11 @@
 int main()
 {
 	serverSocket server;
-	server.init();
+	if (server.init() == -1)
+	{
+		printf("Server Failed\n");
+		reutrn 1;
+	}
 	
 	serverThread* pServerThread = serverThread::getInstance();
     	pServerThread->PoolInit();
@@ -17,9 +21,13 @@ int main()
 
 		if (pConn != NULL)
 		{
-			printf("port:%d Accept Success\n", pConn->m_usClientPort);
 			pServerThread->PoolAddWorker((void*)pConn);		
 		}
+	}
+	if (server.UnInit())
+	{
+		printf("Server Close Error\n");
+		return 1;
 	}
 
 	return 0;	

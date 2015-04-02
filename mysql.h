@@ -10,6 +10,7 @@ public:
 	bool unInit();
 	int queryData(const char* Username, const char* Userpwd);
 	int queryData(std::vector<NetPacket_Score* >& scoreVec);
+	int queryData(const char* Username, int nScore);
 	bool insertData(const char* Username, const char* Userpwd);	
 	bool UpdateData(const char* Username, int nScore);
 private:

@@ -72,6 +72,41 @@ int mysql::queryData(const char* Username, const char* Userpwd)
 	return 0;
 }
 
+int mysql::queryData(const char* Username, int nScore)
+{
+	char s[1000];
+	sprintf(s,"select * from UserInformation where username = '%s'",Username);
+	if (mysql_query(conn, s))
+	{
+		return 0;
+	}
+	else
+	{
+		MYSQL_RES* resSet;
+		resSet = mysql_store_result(conn);
+		if (resSet == NULL)
+		{
+			return 0;
+		}
+		else
+		{
+			MYSQL_ROW row;
+			uint i;
+			while (row = mysql_fetch_row(resSet))
+			{
+            	if (atoi(row[2])) < nScore)
+            	{
+            		return 1;
+            	}
+			}
+		}
+	}
+	if (mysql_errno(conn) != 0)
+	{
+		return false;
+	}
+	return 0;
+}
 
 int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 {
@@ -96,7 +131,6 @@ int mysql::queryData(std::vector<NetPacket_Score* >& scoreVec)
 			uint i = 0;
 			while (row = mysql_fetch_row(resSet))
 			{
-				printf("%s %s %s\n", row[0],row[1], row[2]);
 				scoreVec.push_back(new NetPacket_Score(row[0], atoi(row[2])));
 				i++;
 				if (i >= 10)

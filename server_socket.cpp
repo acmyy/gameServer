@@ -72,6 +72,5 @@ connectionSocketData* serverSocket::Accept()
 		pConn->m_usClientPort = ntohs(stClientAddr.sin_port);
 	}
 	return (pConn);
-
 }
 
