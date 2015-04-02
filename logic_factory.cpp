@@ -78,6 +78,13 @@ bool LogicFactory::getSocre()
 	}
 	printf("%d\n",scoreVec.size());
 	NetPacket_Score nettest;
+	NetPacketResult netResult;
+	netheader.uDataSize = sizeof(netResult);
+	netheader.uOpcode = RESULT_CODE;
+	netResult.result = scoreVec.size();
+	netdata.SendData(m_pConn->m_iFd, (char*)&netheader, sizeof(netheader));
+	netdata.SendData(m_pConn->m_iFd, (char*)&netResult, sizeof(netResult));
+	
 	for (int nIndex = 0; nIndex < scoreVec.size(); nIndex++)
 	{
         netheader.uDataSize = sizeof(NetPacket_Score);  
